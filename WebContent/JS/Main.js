@@ -1,25 +1,24 @@
 
-window.onload = pageLoad
-
-function pageLoad() {
-	initMap()
-}
+initMap()
 
 function initMap() {
-	var map = new ol.Map({
+	window.view = new ol.View({
+		center: ol.proj.fromLonLat([-121.751392674913, 38.52247515]),
+		zoom: 13
+	})
+	window.map = new ol.Map({
 		target: 'map',
 		layers: [
 			new ol.layer.Tile({
 				source: new ol.source.OSM()
 			})
 		],
-		view: new ol.View({
-			center: ol.proj.fromLonLat([37.41, 8.82]),
-			zoom: 4
-		})
+		view: window.view
 	});
-	navigator.geolocation.getCurrentPosition(function(pos) {
-		const coords = ol.proj.fromLonLat([pos.coords.longitude, pos.coords.latitude]);
-		map.getView().animate({center: coords, zoom: 13});
-	});
+}
+
+function gotoLoc(lat, lon) {
+	const coords = ol.proj.fromLonLat([lon, lat]);
+	window.view.animate({center: coords, zoom: 13});
+//	window.view.fit(ol.proj.transformExtent([minLon, minLat, maxLon, maxLat], 'EPSG:4326', 'EPSG:3857'))
 }

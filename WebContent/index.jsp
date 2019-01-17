@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ page import="map.Lookup" %>
 <html>
 <head>
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
@@ -7,6 +8,7 @@
 	<title>StudyUp!</title>
 </head>
 <body>
+	<!-- Navbar CODE -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light static-top">
 		<div class="container">
 			<a class="navbar-brand" href="#">
@@ -36,11 +38,18 @@
 	<div class="container">
 		<section id="Home">
 			<h1 class="mt-4">Meet up to up your grades!</h1>
-			<p>Alas, this page does nearly nothing :( Let's make it beautiful this quarter.
-			For now, why don't you add a button below to take us to your location?</p>
+			<p>Alas, this page does nearly nothing :( Let's make it beautiful this quarter.</p>
 			<div id="map" class="map"></div>
+			<form action="index.jsp" method="GET">
+				<div class="form-group">
+					<input name="place" id="place-input" class="place form-control"
+						placeholder="Search for a place"
+						value="<%=request.getParameter("place") == null ? "" : request.getParameter("place")%>">
+					<button type="submit" id="place-submit" class="place btn btn-dark">Submit</button>
+				</div>
+			</form>
 		</section>
-		
+		<br/>
 		<section id="About">
 			<h1 class="mt-4">About</h1>
 			<p>This simple web-app will be our basis for teaching various programming tools over the course of this quarter.
@@ -55,11 +64,22 @@
 		</section>
 	</div>
 
-	<!-- YOUR CODE HERE -->
+	<!-- JS CODE -->
 	<script type="text/javascript" src="webjars/jquery/3.3.1-1/jquery.min.js"></script>
 	<script type="text/javascript" src="webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="webjars/bootstrap/4.2.1/js/bootstrap.bundle.js"></script>
 	<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
 	<script src="JS/Main.js"></script>
+	
+	<%
+	String place = request.getParameter("place");
+	if (place != null && !place.isEmpty()) {
+       	String loc = Lookup.lookupPlace(place);
+       	if (loc != null) {
+        	double lat = Double.parseDouble(loc.split("\t")[0]);
+        	double lon = Double.parseDouble(loc.split("\t")[1]); %>
+        	<script>gotoLoc(<%=lat%>, <%=lon%>);</script>
+       	<%}
+       }%>
 </body>
 </html>

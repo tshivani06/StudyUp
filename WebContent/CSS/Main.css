@@ -11,6 +11,16 @@ pre {
     width: 80%;
 }
 
+.place {
+	float: left;
+	padding-right: 5px;
+	margin-right: 5px;
+}
+
+#place-input {
+	width: 200px;
+}
+
 .map {
 	height: 500px;
 	width: 80%;
