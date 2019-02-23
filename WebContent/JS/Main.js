@@ -18,6 +18,20 @@ function initMap() {
 	map.on("moveend", onMoveEnd);
 }
 
+function search() {
+	var place = document.getElementById("place-input")
+	console.log(place);
+	$.ajax({
+		url: 'SearchServlet',
+		data: {
+			place: place
+		},
+		success: function(responseText) {
+			var parts = responseText.split("\t");
+			gotoLoc(parts[0], parts[1], parts[2]);
+		}
+	});
+}
 
 function gotoLoc(lat, lon, bounds) {
 	const coordinates = ol.proj.fromLonLat([lon, lat]);
@@ -50,8 +64,7 @@ function onMoveEnd(e) {
 			bounds: bounds
 		},
 		success: function(responseText) {
-			console.log(responseText);
+			console.log(responseText); // TODO: update markers
 		}
 	});
-    console.log(bounds);
 }

@@ -1,4 +1,4 @@
-package edu.studyup.util;
+package edu.studyup.servlets;
 
 import java.io.IOException;
 import java.util.Arrays;
