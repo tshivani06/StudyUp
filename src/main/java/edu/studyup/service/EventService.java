@@ -57,5 +57,11 @@ public interface EventService {
 	 * @return {@code Event}, if the event exists and is deleted, else null.
 	 */
 	public Event deleteEvent(int eventID);
+	
+	public long createEvent(Event event);
+	
+	public Event updateEvent(Event event);
+	
+	public List<Event> getAllEvents();
 
 }
