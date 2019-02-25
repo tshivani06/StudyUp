@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gson.Gson;
 
@@ -85,6 +86,7 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public long createEvent(Event event) {
+		jedis.flushDB();
 		long id = jedis.incr("key");
 		String eventString  = gson.toJson(event);
 		jedis.set(String.valueOf(id), eventString);
@@ -92,18 +94,25 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Event updateEvent(Event event) {
-		long key = event.getEventID();
+	public Event updateEvent(Event event, long key) {
 		String eventString  = gson.toJson(event);
 		jedis.set(String.valueOf(key), eventString);
-		String value = jedis.get("foo");
 		return event;
 	}
 
 	@Override
 	public List<Event> getAllEvents() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Event> eventList = new ArrayList<>();
+		//ToDo: No the optimized way.
+		Set<String> keys = jedis.keys("*");
+		for (String key: keys) {
+			if(!key.equalsIgnoreCase("key")) {
+				String eventString = jedis.get(key);
+				Event event = gson.fromJson(eventString, Event.class);
+				eventList.add(event);
+			}
+		}
+		return eventList;
 	}
 
 }

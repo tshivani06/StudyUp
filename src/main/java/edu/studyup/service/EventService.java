@@ -58,10 +58,34 @@ public interface EventService {
 	 */
 	public Event deleteEvent(int eventID);
 	
+	
+	/**
+	 * 
+	 * 
+	 * Service using Redis DataStore
+	 * 
+	 * 
+	 */
+	
+	
+	/**
+	 * @param event The {@code event} object to be created.
+	 * @return {@code key}, returns the key of the event in the store.
+	 */
 	public long createEvent(Event event);
 	
-	public Event updateEvent(Event event);
+	/**
+	 * @param event The {@code event} object to be updated.
+	 * @param key The {@code key} of the event mapped in the store.
+	 * @return {@code Event}, returns the event.
+	 */
+	public Event updateEvent(Event event,  long key);
 	
+	/**
+	 * Fetches all the events from the store.
+	 * 
+	 * @return The list of all {@code events}.
+	 */
 	public List<Event> getAllEvents();
 
 }
