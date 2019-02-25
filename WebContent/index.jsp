@@ -39,11 +39,11 @@
 			<h1 class="mt-4">Meet up to up your grades!</h1>
 			<p>Alas, this page does nearly nothing :( Let's make it beautiful this quarter.</p>
 			<div id="map" class="map"></div>
-			<form action="index.jsp" method="GET">
+			<form id="searchform" method="GET">
 				<div class="form-group">
 					<input name="place" id="place-input" class="place form-control"
 						placeholder="Search for a place" value="<%=request.getParameter("place") == null ? "" : request.getParameter("place")%>">
-					<button type="submit" id="place-submit" class="place btn btn-dark" onsubmit="search()">Submit</button>
+					<button type="submit" id="place-search" class="place btn btn-dark">Submit</button>
 				</div>
 			</form>
 		</section>

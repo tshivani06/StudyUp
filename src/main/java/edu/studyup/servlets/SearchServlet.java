@@ -17,20 +17,19 @@ public class SearchServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/plain");
 		String place = request.getParameter("place");
-		System.out.println(request.getParameterMap());
+		System.out.println("Searching for: " + place);
 		if (place != null && !place.isEmpty()) {
-			Location loc = Lookup.lookupPlace(place);
-			if (loc != null) {
-				double lat = loc.lat;
-				double lon = loc.lon;
-				double[] bounds = loc.bounds;
-				response.getWriter().write(lat + "\t" + lon + "\t" + Arrays.toString(bounds));
-			}
+	       	Location loc = Lookup.lookupPlace(place);
+	       	if (loc != null) {
+	        	double lat = loc.lat;
+	        	double lon = loc.lon;
+	        	double[] bounds = loc.bounds;
+	    		response.getWriter().write(lat + "\t" + lon + "\t" + Arrays.toString(bounds));
+	       	}
 		}
 	}
 }
