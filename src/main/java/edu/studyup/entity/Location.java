@@ -1,5 +1,7 @@
 package edu.studyup.entity;
 
+import java.util.Arrays;
+
 public class Location {
 
 	public final double lat;
@@ -18,5 +20,9 @@ public class Location {
 
 	public double[] getBoundingBox() {
 		return this.bounds;
+	}
+	
+	public String toString() {
+		return "[" + this.lat + ", " + this.lon + "]" + (this.bounds == null ? "" : "\t" + Arrays.toString(this.bounds));
 	}
 }

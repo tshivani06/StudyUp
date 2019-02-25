@@ -18,8 +18,9 @@ function initMap() {
 	map.on("moveend", onMoveEnd);
 }
 
-function search() {
-	var place = document.getElementById("place-input")
+$('#searchform').submit(function(event){
+	event.preventDefault();
+	var place = document.getElementById("place-input").value
 	console.log(place);
 	$.ajax({
 		url: 'SearchServlet',
@@ -28,10 +29,13 @@ function search() {
 		},
 		success: function(responseText) {
 			var parts = responseText.split("\t");
-			gotoLoc(parts[0], parts[1], parts[2]);
+			var lat = parseFloat(parts[0]);
+			var lon = parseFloat(parts[1]);
+			var bounds = JSON.parse(parts[2]);
+			gotoLoc(lat, lon, bounds);
 		}
 	});
-}
+});
 
 function gotoLoc(lat, lon, bounds) {
 	const coordinates = ol.proj.fromLonLat([lon, lat]);

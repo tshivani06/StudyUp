@@ -21,7 +21,7 @@ public class SearchServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/plain");
 		String place = request.getParameter("place");
-		System.out.println(request.getParameterMap());
+		System.out.println("Searching for: " + place);
 		if (place != null && !place.isEmpty()) {
 	       	Location loc = Lookup.lookupPlace(place);
 	       	if (loc != null) {
