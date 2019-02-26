@@ -2,5 +2,3 @@ language: java
 jdk: openjdk11
 script: 
     - mvn clean install -DskipTests
-after_success:
-    - mvn spotbugs:spotbugs
