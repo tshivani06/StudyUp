@@ -13,46 +13,45 @@ import edu.studyup.util.StudyUpException;
  *
  */
 public interface EventService {
-
-	/**
-	 * Updates the event name by taking in an eventID and the new name.
-	 * throws error if any failed constraints.
-	 * @param eventID The ID of the specific {@link Event} to be updated.
-	 * @param name    The String value to update.
-	 * @return        The updated {@code event}
-	 * @throws        StudyUpException 
-	 */
-	public Event updateEventName(int eventID, String name) throws StudyUpException;
 	
+	/**
+	 * 
+	 * 
+	 * Service using Redis DataStore
+	 * 
+	 * 
+	 */
+
 
 	/**
-	 * Adds a student to a specific event and throws StudyUpException incase of any 
-	 * constraint failures.
-	 * @param student The {@link Student} to be added.
-	 * @param eventID The {@code eventID} of the specific {@link Event} to be
-	 *                updated.
-	 * @return Event, if the student is added successfully.
-	 * @throws StudyUpException 
+	 * @param key The {@code key} of the specific {@link Event} to delete.
+	 * @return 1 if the event is deleted, else 0.
 	 */
-	public Event addStudentToEvent(Student student, int eventID) throws StudyUpException;
-
+	public long deleteEvent(int eventID);
+	
+	
 	/**
-	 * Fetches all the active events present. i.e., the events whose {@code Date} is
-	 * in the future.
-	 * @return The list of all active {@code events}. 
+	 * @param event The {@code event} object to be created.
+	 * @return {@code key}, returns the key of the event in the store.
 	 */
-	public List<Event> getActiveEvents();
-
+	public long createEvent(Event event);
+	
 	/**
-	 * Fetches all the past events. i.e., the events with past {@code Date}.
-	 * @return The list of all past {@code events}.
+	 * @param event The {@code event} object to be updated.
+	 * @param key The {@code key} of the event mapped in the store.
+	 * @return {@code Event}, returns the event.
 	 */
-	public List<Event> getPastEvents();
-
+	public Event updateEvent(Event event,  long key);
+	
 	/**
-	 * @param eventID The {@code eventID} of the specific {@link Event} to delete.
-	 * @return {@code Event}, if the event exists and is deleted, else null.
+	 * Fetches all the events from the store.
+	 * 
+	 * @return The list of all {@code events}.
 	 */
-	public Event deleteEvent(int eventID);
+	public List<Event> getAllEvents();
+	
+	public String deleteAll();
+	
+	public Event getEvent(long key);
 
 }
