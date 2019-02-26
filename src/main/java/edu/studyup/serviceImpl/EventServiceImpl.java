@@ -22,72 +22,14 @@ public class EventServiceImpl implements EventService {
 	Gson gson = new Gson();
 
 	@Override
-	public Event updateEventName(int eventID, String name) throws StudyUpException {
-		Event event = DataStorage.eventData.get(eventID);
-		if (event == null) {
-			throw new StudyUpException("No event found.");
-		}
-
-		if (name.length() >= 20) {
-			throw new StudyUpException("Length too long. Maximun is 20");
-		}
-		event.setName(name);
-		DataStorage.eventData.put(eventID, event);
-		event = DataStorage.eventData.get(event.getEventID());
-		return event;
-	}
-
-	@Override
-	public List<Event> getActiveEvents() {
-		Map<Integer, Event> eventData = DataStorage.eventData;
-		List<Event> activeEvents = new ArrayList<>();
-		for (Integer key : eventData.keySet()) {
-			Event ithEvent = eventData.get(key);
-			activeEvents.add(ithEvent);
-		}
-		return activeEvents;
-	}
-
-	@Override
-	public List<Event> getPastEvents() {
-		Map<Integer, Event> eventData = DataStorage.eventData;
-		List<Event> pastEvents = new ArrayList<>();
-
-		for (Integer key : eventData.keySet()) {
-			Event ithEvent = eventData.get(key);
-			// Checks if an event date is before today, if yes, then add to the past event
-			// list.
-			if (ithEvent.getDate().before(new Date())) {
-				pastEvents.add(ithEvent);
-			}
-		}
-		return pastEvents;
-	}
-
-	@Override
-	public Event addStudentToEvent(Student student, int eventID) throws StudyUpException {
-		Event event = DataStorage.eventData.get(eventID);
-		if (event == null) {
-			throw new StudyUpException("No event found.");
-		}
-		List<Student> presentStudents = event.getStudents();
-		if (presentStudents == null) {
-			presentStudents = new ArrayList<>();
-		}
-		presentStudents.add(student);
-		event.setStudents(presentStudents);
-		return DataStorage.eventData.put(eventID, event);
-	}
-
-	@Override
-	public Event deleteEvent(int eventID) {
-		return DataStorage.eventData.remove(eventID);
+	public long deleteEvent(int key) {
+		return jedis.del(String.valueOf(key));
 	}
 
 	@Override
 	public long createEvent(Event event) {
-		jedis.flushDB();
 		long id = jedis.incr("key");
+		event.setEventID(id);
 		String eventString  = gson.toJson(event);
 		jedis.set(String.valueOf(id), eventString);
 		return id;
@@ -107,12 +49,28 @@ public class EventServiceImpl implements EventService {
 		Set<String> keys = jedis.keys("*");
 		for (String key: keys) {
 			if(!key.equalsIgnoreCase("key")) {
-				String eventString = jedis.get(key);
-				Event event = gson.fromJson(eventString, Event.class);
+				Event event = getEventFromKey(key);
 				eventList.add(event);
 			}
 		}
 		return eventList;
+	}
+
+	@Override
+	public String deleteAll() {
+		return jedis.flushAll();
+	}
+
+	@Override
+	public Event getEvent(long key) {
+		Event event = getEventFromKey(String.valueOf(key));
+		return event;
+	}
+	
+	public Event getEventFromKey(String key) {
+		String eventString = jedis.get(key);
+		Event event = gson.fromJson(eventString, Event.class);
+		return event;
 	}
 
 }

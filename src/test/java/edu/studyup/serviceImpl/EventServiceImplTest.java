@@ -18,6 +18,7 @@ import edu.studyup.entity.Location;
 import edu.studyup.entity.Student;
 import edu.studyup.util.DataStorage;
 import edu.studyup.util.StudyUpException;
+import redis.clients.jedis.Jedis;
 
 class EventServiceImplTest {
 
@@ -25,6 +26,7 @@ class EventServiceImplTest {
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
+	
 	}
 
 	@AfterAll
@@ -43,7 +45,6 @@ class EventServiceImplTest {
 
 		// Create Event1
 		Event event = new Event();
-		event.setEventID(1);
 		event.setDate(new Date());
 		event.setName("Event 1");
 		Location location = new Location(-122, 37);
@@ -52,27 +53,24 @@ class EventServiceImplTest {
 		eventStudents.add(student);
 		event.setStudents(eventStudents);
 
-		DataStorage.eventData.put(event.getEventID(), event);
+		eventServiceImpl.createEvent(event);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-		DataStorage.eventData.clear();
+		eventServiceImpl.deleteAll();
 	}
 
 	@Test
-	void testUpdateEventName_GoodCase() throws StudyUpException {
-		int eventID = 1;
-		eventServiceImpl.updateEventName(eventID, "Renamed Event 1");
-		assertEquals("Renamed Event 1", DataStorage.eventData.get(eventID).getName());
+	void testGetEvent_GoodCase() throws StudyUpException {
+		assertEquals("Event 1",eventServiceImpl.getEventFromKey("1").getName());
+	}
+	
+	@Test
+	void testGetAllEvent_GoodCase() throws StudyUpException {
+		List<Event> events = eventServiceImpl.getAllEvents();
+		assertEquals("Event 1",events.get(0).getName());
 	}
 
-	@Test
-	void testUpdateEvent_WrongEventID_badCase() {
-		int eventID = 3;
-		Assertions.assertThrows(StudyUpException.class, () -> {
-			eventServiceImpl.updateEventName(eventID, "Renamed Event 3");
-		});
-	}
 
 }

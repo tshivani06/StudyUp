@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class Event {
 
-	private int eventID;
+	private long eventID;
 	private String name;
 	private Location location;
 	private List<Student> students;
@@ -53,12 +53,12 @@ public class Event {
 		this.date = date;
 	}
 
-	public int getEventID() {
+	public long getEventID() {
 		return eventID;
 	}
 
-	public void setEventID(int eventID) {
-		this.eventID = eventID;
+	public void setEventID(long id) {
+		this.eventID = id;
 	}
 
 }
