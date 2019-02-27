@@ -61,7 +61,10 @@
 			</p>
 		</section>
 	</div>
-
+	
+	<!-- Dummy element for map interactions -->
+	<div id="create-event" title="Create New Event"></div>
+	
 	<!-- JS CODE -->
 	<script type="text/javascript" src="webjars/jquery/3.3.1-2/jquery.min.js"></script>
 	<script type="text/javascript" src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>

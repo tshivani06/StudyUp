@@ -23,4 +23,12 @@
 		<servlet-name>SearchServlet</servlet-name>
 		<url-pattern>/SearchServlet</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>UpdateServlet</servlet-name>
+		<servlet-class>edu.studyup.servlets.UpdateServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateServlet</servlet-name>
+		<url-pattern>/UpdateServlet</url-pattern>
+	</servlet-mapping>
 </web-app>
