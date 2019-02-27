@@ -18,7 +18,7 @@ import redis.clients.jedis.Jedis;
 public class EventServiceImpl implements EventService {
 	
 	//ToDO change server.
-	Jedis jedis = new Jedis("localhost");
+	Jedis jedis = new Jedis("127.0.0.1", 8888);
 	Gson gson = new Gson();
 
 	@Override

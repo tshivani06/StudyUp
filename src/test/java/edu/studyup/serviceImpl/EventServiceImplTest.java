@@ -63,7 +63,7 @@ class EventServiceImplTest {
 
 	@Test
 	void testGetEvent_GoodCase() throws StudyUpException {
-		assertEquals("Event 1",eventServiceImpl.getEventFromKey("1").getName());
+		assertEquals("Event 1",eventServiceImpl.getEvent(1).getName());
 	}
 	
 	@Test
